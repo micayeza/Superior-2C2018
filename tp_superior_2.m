@@ -53,6 +53,11 @@ function tp_superior_2_OpeningFcn(hObject, eventdata, handles, varargin)
 % varargin   command line arguments to tp_superior_2 (see VARARGIN)
 
 % Choose default command line output for tp_superior_2
+global matA; 
+matA=varargin{1};
+%A=get(varargin{1},'String');
+global matB;
+matB=varargin{2};
 handles.output = hObject;
 
 % Update handles structure
@@ -148,9 +153,11 @@ function calcular_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 %matA=get(handles.A,'string');
-matA=get(varargin.A, 'String');
+%matA=get(varargin.A, 'String');
+global matA;
+global matB;
 A=str2num(matA);
-matB=get(varargin.B, 'String');
+%matB=get(varargin.B, 'String');
 %matB=get(handles.B,'string');
 B=str2num(matB);
 x0=[0 0 0]';

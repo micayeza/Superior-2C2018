@@ -80,7 +80,7 @@ function A_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hints: get(hObject,'String') returns contents of A as text
-%        str2double(get(hObject,'String')) returns contents of A as a double
+ %  A=str2num(get(hObject,'String'));
 
 
 % --- Executes during object creation, after setting all properties.
@@ -103,7 +103,7 @@ function B_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hints: get(hObject,'String') returns contents of B as text
-%        str2double(get(hObject,'String')) returns contents of B as a double
+  %   B=str2num(get(hObject,'String');
 
 
 % --- Executes during object creation, after setting all properties.
@@ -140,7 +140,10 @@ function jacobi_Callback(hObject, eventdata, handles)
 % hObject    handle to jacobi (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-tp_superior_2(handles.A.String, handles.B.String);
+coef=get(handles.A, 'String');
+ti=get(handles.B, 'String');
+tp_superior_2(coef,ti);
+%user_response=tp_superior_2
 
 
 % --- Executes on button press in gauss.
