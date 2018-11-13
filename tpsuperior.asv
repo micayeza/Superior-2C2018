@@ -230,19 +230,11 @@ A=str2num(coef);
 diagonal=diag(A);
 sumatoria=sum(A,2)
 posta=sumatoria-diagonal;
-E=0;
-D=0;
 
 result = posta <= diagonal;
-if(min(result)==0)
-    D=1;
-end
+if
 
-estricto = posta < diagonal;
-if(min(estricto)==0)
-    E=1;
-end
-%Agrandar el texto ver si puede quedar verde?
+
 if (E==0)
      set(handles.validacion,'visible','on');
      set(handles.validacion, 'String', 'La matriz es Estrictamente Dominante');

@@ -164,9 +164,9 @@ A=str2num(matA);
 B=str2num(matB);
 %x0=[0 0 0]';
 inicial=get(handles.x0,'String');
-error=get(handles.cota,'String');
+error=get(handles.cotas,'String');
 
-cotas=str2num(error);
+cotas=str
 x0=str2num(inicial)
 D=diag(diag(A)) ;
 L=tril(A,-1) ;
@@ -176,7 +176,7 @@ xi=x0;
 
 global metodo;
 if (metodo == 1) 
-    while abs(x1-xi)>cotas %Yo supongo que este tope tambien viene por parametro
+    while abs(x1-xi)>error %Yo supongo que este tope tambien viene por parametro
         x1=-inv(D)*(L+U)*x0+inv(D)*B;
         xi=x0 ;
         x0 = x1;
@@ -186,7 +186,7 @@ if (metodo == 1)
 
 else 
 
-    while abs(x1-xi)>10^-6 %Yo supongo que este tope tambien viene por parametro //estamos usando el absoluto
+    while abs(x1-xi)>10^-6 %Yo supongo que este tope tambien viene por parametro
         x1=-inv(D+L)*U*x0+inv(D+L)*B;
         xi=x0 ;
         x0 = x1;
