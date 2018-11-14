@@ -22,7 +22,7 @@ function varargout = tpsuperior(varargin)
 
 % Edit the above text to modify the response to help tpsuperior
 
-% Last Modified by GUIDE v2.5 13-Nov-2018 10:41:47
+% Last Modified by GUIDE v2.5 14-Nov-2018 14:23:26
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -124,10 +124,13 @@ function limpiar_Callback(hObject, eventdata, handles)
 % hObject    handle to limpiar (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+set(handles.validacion,'visible','off');
+set(handles.validacion, 'String', '.');
 set(handles.A,'String', '[ 0 0 0 ; 0 0 0 ; 0 0 0]' );
 set(handles.B,'String', '[ 0 ; 0 ; 0 ]' );
 set(handles.panel2,'visible','off');
 set(handles.norma,'visible','off');
+set(handles.norma, 'String', '');
 
 
 % --- Executes on button press in salir.
@@ -135,6 +138,15 @@ function salir_Callback(hObject, eventdata, handles)
 % hObject    handle to salir (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+set(handles.validacion,'visible','off');
+set(handles.validacion, 'String', '.');
+set(handles.A,'String', '[ 0 0 0 ; 0 0 0 ; 0 0 0]' );
+set(handles.B,'String', '[ 0 ; 0 ; 0 ]' );
+set(handles.panel2,'visible','off');
+set(handles.norma,'visible','off');
+set(handles.norma, 'String', '');
+
+delete(handles.figure1); 
 
 
 % --- Executes on button press in jacobi.
@@ -143,9 +155,29 @@ function jacobi_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 coef=get(handles.A, 'String');
+A=str2num(coef);
+diagonal=diag(A);
+sumatoria=sum(abs(A),2)
+posta=sumatoria-diagonal;
+
+result = posta <= diagonal;
+if(min(result)==0)
+ 
+  set(handles.validacion,'visible','on');
+  set( handles.validacion, 'ForegroundColor', 'red');
+  set(handles.validacion, 'String', 'La matriz no cumple las condiciones');  
+    
+else
+
+
+set(handles.validacion,'visible','off');
+set(handles.validacion, 'String', '.');
+
+%coef=get(handles.A, 'String');
 ti=get(handles.B, 'String');
 metodo=1;
 tp_superior_2(coef,ti,metodo);
+end
 %user_response=tp_superior_2
 
 
@@ -155,9 +187,29 @@ function gauss_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 coef=get(handles.A, 'String');
+A=str2num(coef);
+diagonal=diag(A);
+sumatoria=sum(abs(A),2)
+posta=sumatoria-diagonal;
+
+result = posta <= diagonal;
+if(min(result)==0)
+ 
+  set(handles.validacion,'visible','on');
+  set( handles.validacion, 'ForegroundColor', 'red');
+  set(handles.validacion, 'String', 'La matriz no cumple las condiciones');  
+    
+else
+    
+set(handles.validacion,'visible','off');
+set(handles.validacion, 'String', '.');
+%coef=get(handles.A, 'String');
 ti=get(handles.B, 'String');
 metodo=0;
 tp_superior_2(coef,ti,metodo);
+
+end
+
 
 % --- Executes on button press in uno.
 function uno_Callback(hObject, eventdata, handles)
@@ -228,12 +280,13 @@ function ok_Callback(hObject, eventdata, handles)
 coef=get(handles.A, 'String');
 A=str2num(coef);
 diagonal=diag(A);
-sumatoria=sum(A,2)
+sumatoria=sum(abs(A),2)
 posta=sumatoria-diagonal;
 E=0;
 D=0;
 
 result = posta <= diagonal;
+
 if(min(result)==0)
     D=1;
 end
@@ -245,13 +298,34 @@ end
 %Agrandar el texto ver si puede quedar verde?
 if (E==0)
      set(handles.validacion,'visible','on');
+     set( handles.validacion, 'ForegroundColor', 'green');
      set(handles.validacion, 'String', 'La matriz es Estrictamente Dominante');
 else
      if (D==0)
          set(handles.validacion,'visible','on');
+         set( handles.validacion, 'ForegroundColor', 'green');
          set(handles.validacion, 'String', 'La matriz es Diagonalmente Dominante');   
      else
          set(handles.validacion,'visible','on');
-         set(handles.validacion, 'String', 'Debe modificar la matriz para aplicar el método');   
+         set( handles.validacion, 'ForegroundColor', 'red');
+         set(handles.validacion, 'String', 'La matriz no cumple las condiciones');   
      end 
  end
+
+
+% --- Executes when user attempts to close figure1.
+function figure1_CloseRequestFcn(hObject, eventdata, handles)
+% hObject    handle to figure1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: delete(hObject) closes the figure
+set(handles.validacion,'visible','off');
+set(handles.validacion, 'String', '.');
+set(handles.A,'String', '[ 0 0 0 ; 0 0 0 ; 0 0 0]' );
+set(handles.B,'String', '[ 0 ; 0 ; 0 ]' );
+set(handles.panel2,'visible','off');
+set(handles.norma,'visible','off');
+set(handles.norma, 'String', '');
+
+delete(hObject);

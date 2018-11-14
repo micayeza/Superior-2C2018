@@ -159,15 +159,16 @@ function calcular_Callback(hObject, eventdata, handles)
 global matA;
 global matB;
 A=str2num(matA);
-%matB=get(varargin.B, 'String');
-%matB=get(handles.B,'string');
 B=str2num(matB);
-%x0=[0 0 0]';
+
 inicial=get(handles.x0,'String');
+decimal=get(handles.decimales,'String');
 error=get(handles.cota,'String');
 
 cotas=str2num(error);
-x0=str2num(inicial)
+decimales=str2num(decimal);
+miles=10^decimales;
+x0=str2num(inicial);
 D=diag(diag(A)) ;
 L=tril(A,-1) ;
 U=triu(A,1) ;
@@ -176,8 +177,9 @@ xi=x0;
 
 global metodo;
 if (metodo == 1) 
-    while abs(x1-xi)>cotas %Yo supongo que este tope tambien viene por parametro
-        x1=-inv(D)*(L+U)*x0+inv(D)*B;
+    while abs(x1-xi)>cotas %
+        xp=-inv(D)*(L+U)*x0+inv(D)*B;
+        x1=round(xp*miles)/miles;
         xi=x0 ;
         x0 = x1;
     end
@@ -186,7 +188,7 @@ if (metodo == 1)
 
 else 
 
-    while abs(x1-xi)>10^-6 %Yo supongo que este tope tambien viene por parametro //estamos usando el absoluto
+    while abs(x1-xi)>cotas % //estamos usando el absoluto
         x1=-inv(D+L)*U*x0+inv(D+L)*B;
         xi=x0 ;
         x0 = x1;
@@ -200,3 +202,5 @@ function volver_Callback(hObject, eventdata, handles)
 % hObject    handle to volver (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+delete(handles.figure1); 
+tpsuperior();

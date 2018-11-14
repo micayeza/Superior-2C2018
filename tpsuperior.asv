@@ -142,6 +142,9 @@ function jacobi_Callback(hObject, eventdata, handles)
 % hObject    handle to jacobi (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+set(handles.validacion,'visible','off');
+set(handles.validacion, 'String', '.');
+
 coef=get(handles.A, 'String');
 ti=get(handles.B, 'String');
 metodo=1;
@@ -154,6 +157,24 @@ function gauss_Callback(hObject, eventdata, handles)
 % hObject    handle to gauss (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+diagonal=diag(A);
+sumatoria=sum(abs(A),2)
+posta=sumatoria-diagonal;
+E=0;
+D=0;
+
+result = posta <= diagonal;
+if(min(result)==0)
+    D=1;
+end
+
+estricto = posta < diagonal;
+if(min(estricto)==0)
+    E=1;
+end
+
+set(handles.validacion,'visible','off');
+set(handles.validacion, 'String', '.');
 coef=get(handles.A, 'String');
 ti=get(handles.B, 'String');
 metodo=0;
@@ -228,22 +249,33 @@ function ok_Callback(hObject, eventdata, handles)
 coef=get(handles.A, 'String');
 A=str2num(coef);
 diagonal=diag(A);
-sumatoria=sum(A,2)
+sumatoria=sum(abs(A),2)
 posta=sumatoria-diagonal;
+E=0;
+D=0;
 
 result = posta <= diagonal;
-if
+if(min(result)==0)
+    D=1;
+end
 
-
+estricto = posta < diagonal;
+if(min(estricto)==0)
+    E=1;
+end
+%Agrandar el texto ver si puede quedar verde?
 if (E==0)
      set(handles.validacion,'visible','on');
+     set( handles.validacion, 'ForegroundColor', 'green');
      set(handles.validacion, 'String', 'La matriz es Estrictamente Dominante');
 else
      if (D==0)
          set(handles.validacion,'visible','on');
+         set( handles.validacion, 'ForegroundColor', 'green');
          set(handles.validacion, 'String', 'La matriz es Diagonalmente Dominante');   
      else
          set(handles.validacion,'visible','on');
-         set(handles.validacion, 'String', 'Debe modificar la matriz para aplicar el método');   
+         set( handles.validacion, 'ForegroundColor', 'red');
+         set(handles.validacion, 'String', 'La matriz no cumple las condiciones');   
      end 
  end
